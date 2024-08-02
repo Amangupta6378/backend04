@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React, { useEffect, useState } from "react";
 
 function App() {
+  const [props, setProps] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:7000")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setProps(data);
+        // console.log(data);
+      });
+  },[]);
+  let fetchData = () => {
+    console.log(props);
+  };
+  // console.log(props);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>{props.length > 0 && <h1>{props[0].name}</h1>}</div>
+      <div>
+        <button onClick={fetchData}>Fetch your data</button>
+      </div>
     </div>
   );
 }
